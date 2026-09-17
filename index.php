@@ -1,6 +1,11 @@
 <?php 
   include 'inc/cookie.inc.php';
   include 'inc/headers.inc.php'; 
+
+  define('PATH_LOG', 'path.log');
+  include 'inc/log.inc.php';
+  include 'inc/cookie.inc.php';
+  include 'inc/headers.inc.php';
 ?>
 <!DOCTYPE html>
 <html>
