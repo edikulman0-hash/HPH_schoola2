@@ -1,4 +1,5 @@
 <?php 
+  include 'inc/cookie.inc.php';
   include 'inc/headers.inc.php'; 
 ?>
 <!DOCTYPE html>
@@ -25,6 +26,19 @@
     <!-- Заголовок -->
     <h1><?= $header?></h1>
     <!-- Заголовок -->
+
+    <!-- Вывод cookie-информации -->
+    <p>
+    <?php
+      if ($visitCounter == 1) {
+          echo "Спасибо, что зашли на огонек";
+      } else {
+          echo "Вы зашли к нам $visitCounter раз<br>";
+          echo "Последнее посещение: $lastVisit";
+      }
+    ?>
+    </p>
+
     <!-- Область основного контента -->
     <?php 
       include 'inc/routing.inc.php'; 
@@ -35,16 +49,12 @@
     <!-- Навигация -->
     <h2>Навигация по сайту</h2>
     <ul>
-      <li><a href='index.php'>Домой</a>
-      </li>
-      <li><a href='index.php?id=contact'>Контакты</a>
-      </li>
-      <li><a href='index.php?id=about'>О нас</a>
-      </li>
-      <li><a href='index.php?id=info'>Информация</a>
-      </li>
-      <li><a href='index.php?id=gbook'>Гостевая книга</a>
-      </li>
+      <li><a href='index.php'>Домой</a></li>
+      <li><a href='index.php?id=contact'>Контакты</a></li>
+      <li><a href='index.php?id=about'>О нас</a></li>
+      <li><a href='index.php?id=info'>Информация</a></li>
+      <li><a href='index.php?id=gbook'>Гостевая книга</a></li>
+      <li><a href='index.php?id=log'>Журнал посещений</a></li>
     </ul>
     <!-- Навигация -->
   </div>
