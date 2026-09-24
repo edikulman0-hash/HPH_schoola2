@@ -36,9 +36,18 @@
     <p>
     <?php
       if ($visitCounter == 1) {
-          echo "Спасибо, что зашли на огонек";
+          echo "Спасибо, что зашли на огонек!";
       } else {
-          echo "Вы зашли к нам $visitCounter раз<br>";
+          $lastDigit = $visitCounter % 10;
+          $lastTwoDigits = $visitCounter % 100;
+
+          if ($lastDigit >= 2 && $lastDigit <= 4 && ($lastTwoDigits < 12 || $lastTwoDigits > 14)) {
+              $word = "раза";
+          } else {
+              $word = "раз";
+          }
+
+          echo "Вы зашли к нам $visitCounter $word<br>";
           echo "Последнее посещение: $lastVisit";
       }
     ?>

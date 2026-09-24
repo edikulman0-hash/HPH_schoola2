@@ -13,36 +13,54 @@ if (!$link) {
 mysqli_set_charset($link, 'utf8');
 /* Основные настройки */
 
-/* Сохранение записи в БД */
+/* Сохранение записи в БД через Prepared Statement */
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $name = trim(strip_tags($_POST['name'] ?? ''));
     $email = trim(strip_tags($_POST['email'] ?? ''));
     $msg = trim(strip_tags($_POST['msg'] ?? ''));
 
     if (!empty($name) && !empty($msg)) {
-        $name = mysqli_real_escape_string($link, $name);
-        $email = mysqli_real_escape_string($link, $email);
-        $msg = mysqli_real_escape_string($link, $msg);
+        // Подготавливаем SQL-запрос с плейсхолдерами ?
+        $stmt = mysqli_prepare($link, "INSERT INTO msgs (name, email, msg) VALUES (?, ?, ?)");
+        
+        if ($stmt) {
+            // Привязываем параметры: "sss" означает три строки (string, string, string)
+            mysqli_stmt_bind_param($stmt, "sss", $name, $email, $msg);
+            
+            // Выполняем prepared statement
+            mysqli_stmt_execute($stmt);
+            
+            // Закрываем prepared statement
+            mysqli_stmt_close($stmt);
+        }
 
-        $sql = "INSERT INTO msgs (name, email, msg) VALUES ('$name', '$email', '$msg')";
-        mysqli_query($link, $sql);
-
-        // Перенаправление без вызова header()
+        // Перенаправление через JS
         echo "<script>window.location.href='index.php?id=gbook';</script>";
         exit;
     }
 }
 /* Сохранение записи в БД */
 
-/* Удаление записи из БД */
+/* Удаление записи из БД через Prepared Statement */
 if (isset($_GET['del'])) {
     $del = (int)$_GET['del'];
 
     if ($del > 0) {
-        $sql = "DELETE FROM msgs WHERE id = $del";
-        mysqli_query($link, $sql);
+        // Подготавливаем SQL-запрос на удаление
+        $stmt = mysqli_prepare($link, "DELETE FROM msgs WHERE id = ?");
+        
+        if ($stmt) {
+            // "i" означает один integer параметр
+            mysqli_stmt_bind_param($stmt, "i", $del);
+            
+            // Выполняем prepared statement
+            mysqli_stmt_execute($stmt);
+            
+            // Закрываем prepared statement
+            mysqli_stmt_close($stmt);
+        }
 
-        // Перенаправление без вызова header()
+        // Перенаправление через JS
         echo "<script>window.location.href='index.php?id=gbook';</script>";
         exit;
     }
