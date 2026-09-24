@@ -1,6 +1,6 @@
 <?php
 /* Основные настройки */
-define('DB_HOST', 'localhost');
+define('DB_HOST', 'MySQL-8.4');
 define('DB_LOGIN', 'root');
 define('DB_PASSWORD', '');
 define('DB_NAME', 'gbook');
@@ -27,7 +27,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $sql = "INSERT INTO msgs (name, email, msg) VALUES ('$name', '$email', '$msg')";
         mysqli_query($link, $sql);
 
-        header('Location: ' . $_SERVER['REQUEST_URI']);
+        // Перенаправление без вызова header()
+        echo "<script>window.location.href='index.php?id=gbook';</script>";
         exit;
     }
 }
@@ -41,7 +42,8 @@ if (isset($_GET['del'])) {
         $sql = "DELETE FROM msgs WHERE id = $del";
         mysqli_query($link, $sql);
 
-        header('Location: index.php?id=gbook');
+        // Перенаправление без вызова header()
+        echo "<script>window.location.href='index.php?id=gbook';</script>";
         exit;
     }
 }
@@ -50,7 +52,7 @@ if (isset($_GET['del'])) {
 
 <h3>Оставьте запись в нашей Гостевой книге</h3>
 
-<form method="post" action="<?= $_SERVER['REQUEST_URI']?>">
+<form method="post" action="index.php?id=gbook">
 Имя: <br /><input type="text" name="name" /><br />
 Email: <br /><input type="text" name="email" /><br />
 Сообщение: <br /><textarea name="msg"></textarea><br />
