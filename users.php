@@ -16,10 +16,13 @@ class User extends UserAbstract {
     public $login;
     public $password;
 
+    public static $userCount = 0;
+
     public function __construct($name, $login, $password) {
         $this->name = $name;
         $this->login = $login;
         $this->password = $password;
+        self::$userCount++;
     }
 
     public function __destruct() {
@@ -38,9 +41,12 @@ class User extends UserAbstract {
 class SuperUser extends User implements ISuperUser, IAuthorizeUser {
     public $role;
 
+    public static $superUserCount = 0;
+
     public function __construct($name, $login, $password, $role) {
         parent::__construct($name, $login, $password);
         $this->role = $role;
+        self::$superUserCount++;
     }
 
     public function showInfo() {
@@ -77,9 +83,5 @@ $user3->showInfo();
 $user = new SuperUser('Админ Админов', 'admin', 'root123', 'administrator');
 $user->showInfo();
 
-echo "<h4>Результат getInfo():</h4><pre>";
-print_r($user->getInfo());
-echo "</pre>";
-
-echo "<h4>Проверка auth():</h4>";
-var_dump($user->auth('admin', 'root123'));
+echo "Всего обычных пользователей: " . User::$userCount . "<br />";
+echo "Всего супер-пользователей: " . SuperUser::$superUserCount . "<br />";
