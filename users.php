@@ -4,6 +4,16 @@ class User {
     public $login;
     public $password;
 
+    public function __construct($name, $login, $password) {
+        $this->name = $name;
+        $this->login = $login;
+        $this->password = $password;
+    }
+
+    public function __destruct() {
+        echo "Пользователь {$this->login} удален<br />";
+    }
+
     public function showInfo() {
         echo "<p>";
         echo "Имя: {$this->name}<br />";
@@ -13,20 +23,9 @@ class User {
     }
 }
 
-$user1 = new User();
-$user1->name = 'Вася Пупкин';
-$user1->login = 'vasya';
-$user1->password = '12345';
-
-$user2 = new User();
-$user2->name = 'Петя Иванов';
-$user2->login = 'petya';
-$user2->password = 'qwerty';
-
-$user3 = new User();
-$user3->name = 'Иван Сидоров';
-$user3->login = 'ivan';
-$user3->password = 'secret';
+$user1 = new User('Вася Пупкин', 'vasya', '12345');
+$user2 = new User('Петя Иванов', 'petya', 'qwerty');
+$user3 = new User('Иван Сидоров', 'ivan', 'secret');
 
 $user1->showInfo();
 $user2->showInfo();
